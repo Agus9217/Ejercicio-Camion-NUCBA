@@ -58,9 +58,8 @@ const selectTruckFunction = () => {
   }) 
 }
 
-
-
 const reloadColorSelector = (brandSelected) => {
+  selectColor.innerHTML = ''
   const trucksAvalibles = trucks.filter(item => item.marca === brandSelected)
   trucksAvalibles.filter((item) => {
     item.color.forEach((color) => {
