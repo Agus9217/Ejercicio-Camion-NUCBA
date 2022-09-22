@@ -36,14 +36,17 @@ const selectColor = document.getElementById('select-color')
 const printName = document.getElementById('truck-name')
 const printColor = document.getElementById('truck-color')
 const button = document.getElementById('btn-color')
-const fragment = document.createDocumentFragment();
 
 const init = () => {
   window.addEventListener('DOMContentLoaded', () => {
     selectTruckFunction()
-    listen()
     console.log('Ya esta todo cargado')
-  });
+  })
+  selectTruck.addEventListener('change', () => {
+    const brandSelected = selectTruck.options[selectTruck.selectedIndex].textContent
+    reloadColorSelector(brandSelected)
+    console.dir(brandSelected)
+  })
 }
 
 const selectTruckFunction = () => {
@@ -51,32 +54,23 @@ const selectTruckFunction = () => {
     const optionTruck = document.createElement('option')
     optionTruck.value = item.id
     optionTruck.textContent = item.marca
-    fragment.appendChild(optionTruck)
-    selectTruck.appendChild(fragment)
-    selectColorFunction(item)
+    selectTruck.appendChild(optionTruck)
   }) 
 }
 
-const selectColorFunction = (valueItem) => {
-  valueItem.color.forEach((color) => {
-    const optionColor = document.createElement('option')
-    optionColor.textContent = color
-    optionColor.value = valueItem.id
-    fragment.appendChild(optionColor)
-    selectColor.appendChild(fragment)
+
+
+const reloadColorSelector = (brandSelected) => {
+  const trucksAvalibles = trucks.filter(item => item.marca === brandSelected)
+  trucksAvalibles.filter((item) => {
+    item.color.forEach((color) => {
+      const optionColor = document.createElement('option')
+      optionColor.textContent = color
+      selectColor.appendChild(optionColor)
+    })
   })
 }
 
-const listen = () => {
-  selectTruck.addEventListener('change', (e) => {
-    const valueId = e.target.value
-    changeColor(valueId)
-  })
-}
-
-const changeColor = (idTruck) => {
-  selectColor.value = idTruck 
-}
 
 init()
 
